@@ -32,7 +32,11 @@ async def process_start_command(message: Message, state: FSMContext, bot: Bot) -
     """
     logging.info(f"process_start_command {message.chat.id}")
     await state.set_state(default_state)
-    data = {"tg_id": message.chat.id, "username": message.from_user.username}
+    if message.from_user.username:
+        username = message.from_user.username
+    else:
+        username = 'username'
+    data = {"tg_id": message.chat.id, "username": username}
     await rq.add_user(tg_id=message.chat.id, data=data)
     await message.answer_photo(photo='AgACAgIAAxkBAAMnZuGrqFwdnbXv5wNqo8esoK1NzWUAAgjgMRuqRwlL1VbVH3yUyQsBAAMCAAN4AAM2BA',
                                caption=f'Уже 11 лет наши склады снабжают строительные объекты  по всей России.\n'
